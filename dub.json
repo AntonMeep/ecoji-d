@@ -8,6 +8,10 @@
 	"license": "MIT",
 	"configurations": [
 		{
+			"name": "executable",
+			"targetType": "executable"
+		},
+		{
 			"name": "library",
 			"targetType": "library"
 		},
