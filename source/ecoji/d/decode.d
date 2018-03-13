@@ -2,12 +2,9 @@ module ecoji.d.decode;
 
 import ecoji.d.mapping;
 
-import std.algorithm;
-import std.array;
-import std.range;
-import std.string;
-import std.typecons : tuple;
-import std.utf;
+import std.array : array;
+import std.range : isInputRange, ElementType, walkLength, popFrontN, takeExactly;
+import std.string : indexOf, assumeUTF;
 
 version(unittest) import fluent.asserts;
 

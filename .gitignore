@@ -14,3 +14,4 @@ ecoji-d-test-*
 *.lst
 trial-root
 trial_root.d
+*.a

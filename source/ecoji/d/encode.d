@@ -10,7 +10,7 @@ import std.utf : byChar;
 version(unittest) import fluent.asserts;
 
 template encode(Range) 
-if(isInputRange!Range && is(ElementType!Range : char)) {
+if(isInputRange!Range && is(ElementType!Range : ubyte)) {
 	@safe auto encode(Range r) {
 		return encodeImpl(r);
 	}
@@ -30,8 +30,8 @@ if(isInputRange!Range && is(ElementType!Range : char)) {
 			this.popFront;
 		}
 
-		const auto front() { return m_buffer[m_index]; }
-		const auto empty() { return m_empty; }
+		@property const auto front() { return m_buffer[m_index]; }
+		@property const auto empty() { return m_empty; }
 		void popFront() {
 			if(m_index++ < 3)
 				return;
@@ -108,11 +108,6 @@ if(isInputRange!Range && is(ElementType!Range : char)) {
 	}
 }
 
-@("encode() accepts input ranges")
-unittest {
-	"Sure thing".byChar.encode;
-}
-
 @("encode() works for 1-byte inputs")
 unittest {
 	"o".byChar.encode.array.should.be.equal([EMOJIS['o' << 2], PADDING, PADDING, PADDING]);
@@ -177,7 +172,7 @@ unittest {
 	]);
 }
 
-@("encode() works for different kinds of inputs")
+@("encode() can encode strings")
 unittest {
 	"abc".byChar.encode.array.should.be.equal("👖📸🎈☕");
 	"6789".byChar.encode.array.should.be.equal("🎥🤠📠🏍");
