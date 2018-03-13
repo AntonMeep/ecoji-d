@@ -11,7 +11,7 @@ version(unittest) import fluent.asserts;
 
 template encode(Range) 
 if(isInputRange!Range && is(ElementType!Range : ubyte)) {
-	@safe auto encode(Range r) {
+	auto encode(Range r) {
 		return encodeImpl(r);
 	}
 
@@ -23,15 +23,13 @@ if(isInputRange!Range && is(ElementType!Range : ubyte)) {
 			size_t m_index = 4;
 		}
 
-		@safe:
-
 		this(Range r) {
 			m_range = r;
 			this.popFront;
 		}
 
-		@property const auto front() { return m_buffer[m_index]; }
-		@property const auto empty() { return m_empty; }
+		@property auto front() { return m_buffer[m_index]; }
+		@property auto empty() { return m_empty; }
 		void popFront() {
 			if(m_index++ < 3)
 				return;
@@ -106,6 +104,21 @@ if(isInputRange!Range && is(ElementType!Range : ubyte)) {
 			}
 		}
 	}
+}
+
+@("encode() returns valid input range")
+unittest {
+	static assert(isInputRange!(typeof("Yes, of course".byChar.encode)));
+}
+
+@("encode() is @safe")
+@safe unittest {
+	"Heck ye!".byChar.encode;
+}
+
+@("encode() is pure")
+pure unittest {
+	"Just for you, sweetheart".byChar.encode;
 }
 
 @("encode() works for 1-byte inputs")

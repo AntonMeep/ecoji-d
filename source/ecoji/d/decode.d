@@ -3,7 +3,7 @@ module ecoji.d.decode;
 import ecoji.d.mapping;
 
 import std.array : array;
-import std.range : isInputRange, ElementType, walkLength, popFrontN, takeExactly;
+import std.range : isInputRange, ElementType, walkLength, popFrontN, takeExactly, front, empty;
 import std.string : indexOf, assumeUTF;
 
 version(unittest) import fluent.asserts;
@@ -28,8 +28,8 @@ if(isInputRange!Range && is(ElementType!Range : dchar)) {
 			this.popFront;
 		}
 
-		@property const auto front() { return m_buffer[m_index]; }
-		@property const auto empty() { return m_empty; }
+		@property auto front() { return m_buffer[m_index]; }
+		@property auto empty() { return m_empty; }
 
 		void popFront() {
 			if(++m_index < m_length)
@@ -84,10 +84,25 @@ if(isInputRange!Range && is(ElementType!Range : dchar)) {
 		}
 	}
 
-	private int runeOf(dchar d) {
+	private @safe pure nothrow @nogc int runeOf(dchar d) {
 		auto t = cast(int) EMOJIS.indexOf(d);
 		return t == -1 ? 0 : t;
 	}
+}
+
+@("decode() returns valid input range")
+unittest {
+	static assert(isInputRange!(typeof([EMOJIS['o' << 2], PADDING, PADDING, PADDING].decode)));
+}
+
+@("decode() is @safe")
+@safe unittest {
+	[EMOJIS['o' << 2], PADDING, PADDING, PADDING].decode;
+}
+
+@("decode() is pure")
+pure unittest {
+	[EMOJIS['o' << 2], PADDING, PADDING, PADDING].decode;
 }
 
 @("decode() works for encoded 1-byte values")
