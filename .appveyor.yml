@@ -1,0 +1,68 @@
+version: 1.0.{build}
+
+platform: x64
+
+skip_tags: false
+
+image: Visual Studio 2015
+
+environment:
+  VCVARSALL: '"C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\vcvarsall"'
+  matrix:
+  - DC: dmd
+    ARCH: x86
+  - DC: dmd
+    ARCH: x86_64
+  - DC: ldc2
+    ARCH: x86
+  - DC: ldc2
+    ARCH: x86_64
+install:
+  - ps: function SetUpDCompiler {
+        $TempDir = [System.IO.Path]::GetTempPath();
+        if($env:DC -eq "dmd") {
+          echo "*** Getting latest dmd version... ***";
+          $env:DCVER = Invoke-WebRequest -URI "http://downloads.dlang.org/releases/LATEST";
+          echo "*** $($env:DCVER) it is. Downloading... ***";
+          Invoke-WebRequest "http://downloads.dlang.org/releases/2.x/$($env:DCVER)/dmd.$($env:DCVER).windows.7z"
+            -OutFile "$($TempDir)dmd-latest.7z";
+          echo "*** Unpacking... ***";
+          7z x "$($TempDir)dmd-latest.7z" -o"C:\\" > $null;
+          echo "*** Done! Adding it to PATH ***";
+          $env:PATH += ";C:\dmd2\windows\bin;";
+
+          echo "*** Checking dmd ***";
+          dmd --version;
+          echo "*** Checking dub ***";
+          dub --version;
+        } elseif($env:DC -eq "ldc2") {
+          echo "*** Getting latest ldc version... ***";
+          $env:DCVER = Invoke-RestMethod "https://api.github.com/repos/ldc-developers/ldc/releases/latest"|
+            Select -Expand "tag_name" |
+            %{ $_ -Replace("^v", "") };
+          echo "*** $($env:DCVER) it is. Downloading... ***";
+          Invoke-WebRequest "https://github.com/ldc-developers/ldc/releases/download/v$($env:DCVER)/ldc2-$($env:DCVER)-win64-msvc.zip"
+            -OutFile "$($TempDir)ldc-latest.zip";
+          echo "*** Unpacking... ***";
+          7z x "$($TempDir)ldc-latest.zip" -o"C:\\" > $null;
+          echo "*** Done! Adding it to PATH ***";
+          $env:PATH += ";C:\ldc2-$($env:DCVER)-win64-msvc\bin;";
+
+          echo "*** Checking ldc ***";
+          ldc2 --version;
+          echo "*** Checking dub ***";
+          dub --version;
+        }
+      }
+  - ps: SetUpDCompiler
+  - ps: if($env:ARCH -eq "x86") {
+        $env:VCVARS = "x86";
+      } else {
+        $env:VCVARS = "amd64";
+      }
+  - '%VCVARSALL% %VCVARS%'
+  - ps: dub fetch trial
+
+test_script:
+  - ps: dub run trial:runner;
+  - ps: dub build -b debug --compiler=$env:DC --arch=$env:ARCH;
