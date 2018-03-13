@@ -1,0 +1,25 @@
+sudo: false
+language: d
+d:
+  - dmd
+  - gdc
+  - ldc
+
+os:
+  - linux
+  - osx
+
+env:
+  - ARCH=x86_64
+
+matrix:
+  exclude:
+    - d: gdc
+      os: osx
+
+before_install:
+  - dub fetch trial
+
+script:
+  - dub run trial
+  - dub build -b debug --compiler=$DC --arch=$ARCH
