@@ -2,7 +2,6 @@ sudo: false
 language: d
 d:
   - dmd
-  - gdc
   - ldc
 
 os:
@@ -11,11 +10,6 @@ os:
 
 env:
   - ARCH=x86_64
-
-matrix:
-  exclude:
-    - d: gdc
-      os: osx
 
 before_install:
   - dub fetch trial
