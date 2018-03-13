@@ -63,6 +63,6 @@ install:
   - '%VCVARSALL% %VCVARS%'
   - ps: dub fetch trial
 
-test_script:
+build_script:
   - ps: dub run trial:runner;
   - ps: dub build -b debug --compiler=$env:DC --arch=$env:ARCH;
