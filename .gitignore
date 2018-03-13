@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+ecoji-d.so
+ecoji-d.dylib
+ecoji-d.dll
+ecoji-d.a
+ecoji-d.lib
+ecoji-d-test-*
+*.exe
+*.o
+*.obj
+*.lst
+trial-root
+trial_root.d

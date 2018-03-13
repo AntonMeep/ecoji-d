@@ -1,0 +1,21 @@
+{
+	"name": "ecoji-d",
+	"authors": [
+		"Anton Fediushin"
+	],
+	"description": "Encodes and decodes data as emojis",
+	"copyright": "Copyright © 2018, Anton Fediushin",
+	"license": "MIT",
+	"configurations": [
+		{
+			"name": "library",
+			"targetType": "library"
+		},
+		{
+			"name": "trial",
+			"dependencies": {
+				"fluent-asserts": "~>0.9.0"
+			}
+		}
+	]
+}
