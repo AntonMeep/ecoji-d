@@ -7,7 +7,7 @@ Ecoji-d encodes data as base1024 but with emoji character set.
 
 ## Usage
 
-**ecoji-d** can be used both as a library or as a CLI utility:
+**ecoji-d** can be used both as a library or as a CLI utility, in both cases [D compiler](https://dlang.org/download.html) and [dub](https://code.dlang.org/download) are required:
 
 ### As a library
 
