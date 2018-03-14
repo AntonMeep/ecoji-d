@@ -1,4 +1,4 @@
-ecoji-d 👦🔉🦐🔼🍽🔓☕☕ [![Page on DUB](https://img.shields.io/dub/v/ecoji-d.svg?style=flat-square)](http://code.dlang.org/packages/ecoji-d)[![License](https://img.shields.io/dub/l/ecoji-d.svg?style=flat-square)](https://github.com/ohdatboi/ecoji-d/blob/master/LICENSE)[![Build Status TravisCI](https://img.shields.io/travis/ohdatboi/ecoji-d/master.svg?style=flat-square)](https://travis-ci.org/ohdatboi/ecoji-d)[![Build status AppVeyor](https://img.shields.io/appveyor/ci/ohdatboi/ecoji-d/master.svg?style=flat-square)](https://ci.appveyor.com/project/ohdatboi/ecoji-d)
+ecoji-d 👦🔉🦐🔼🍽🔓☕☕ [![Page on DUB](https://img.shields.io/dub/v/ecoji-d.svg?style=flat-square)](http://code.dlang.org/packages/ecoji-d)[![License](https://img.shields.io/dub/l/ecoji-d.svg?style=flat-square)](https://github.com/ohdatboi/ecoji-d/blob/master/LICENSE)[![Build Status TravisCI](https://img.shields.io/travis/ohdatboi/ecoji-d/master.svg?style=flat-square)](https://travis-ci.org/ohdatboi/ecoji-d)
 ========
 
 **ecoji-d** implements [Ecoji](https://github.com/keith-turner/ecoji) encoding standard using the D programming language.
