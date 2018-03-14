@@ -9,7 +9,7 @@ import std.string : indexOf, assumeUTF;
 version(unittest) import fluent.asserts;
 
 class DecodingException : Exception {
-	this(string msg, string file = __FILE__, size_t line = __LINE__) {
+	@safe pure @nogc nothrow this(string msg, string file = __FILE__, size_t line = __LINE__) {
 		super(msg, file, line);
 	}
 }
