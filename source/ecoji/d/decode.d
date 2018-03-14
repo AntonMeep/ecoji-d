@@ -8,6 +8,12 @@ import std.string : indexOf, assumeUTF;
 
 version(unittest) import fluent.asserts;
 
+class DecodingException : Exception {
+	this(string msg, string file = __FILE__, size_t line = __LINE__) {
+		super(msg, file, line);
+	}
+}
+
 template decode(Range) 
 if(isInputRange!Range && is(ElementType!Range : dchar)) {
 	auto decode(Range r) {
@@ -41,7 +47,7 @@ if(isInputRange!Range && is(ElementType!Range : dchar)) {
 			}
 
 			if(m_range.walkLength(4) < 4)
-				throw new Exception("Unexpected end of data");
+				throw new DecodingException("Unexpected end of data");
 			
 			m_length = 0;
 			m_index = 0;
@@ -50,7 +56,7 @@ if(isInputRange!Range && is(ElementType!Range : dchar)) {
 			m_range.popFrontN(4);
 
 			if(EMOJIS.indexOf(runes[0]) == -1)
-				throw new Exception("Invalid rune");
+				throw new DecodingException("Invalid rune");
 
 			int bits1 = runes[0].runeOf;
 			int bits2 = runes[1].runeOf;
