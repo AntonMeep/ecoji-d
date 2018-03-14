@@ -5,6 +5,7 @@ import ecoji.d.mapping;
 import std.array : array;
 import std.range : isInputRange, ElementType, walkLength, popFrontN, takeExactly, front, empty;
 import std.string : indexOf, assumeUTF;
+import std.format : format;
 
 version(unittest) import fluent.asserts;
 
@@ -56,7 +57,7 @@ if(isInputRange!Range && is(ElementType!Range : dchar)) {
 			m_range.popFrontN(4);
 
 			if(EMOJIS.indexOf(runes[0]) == -1)
-				throw new DecodingException("Invalid rune");
+				throw new DecodingException(format!"Invalid rune `%s`"(runes[0]));
 
 			int bits1 = runes[0].runeOf;
 			int bits2 = runes[1].runeOf;
@@ -185,4 +186,30 @@ unittest {
 	"🐲👡🕟☕".decode.array.assumeUTF.should.be.equal("XY\n");
 	"🏗📩🎦🐇🎛📘🔯🚜💞😽🆖🐊🎱🥁🚄🌱💞😭💮🇵💢🕥🐭🔸🍉🚲🦑🐶💢🕥🔮🔺🍉📸🐮🌼👦🚟🥴📑"
 		.decode.array.assumeUTF.should.be.equal("Base64 is so 1999, isn't there something better?\n");
+}
+
+@("decode() throws an exception if end of data is reached unexpectedly")
+unittest {
+	({
+		[EMOJIS[1], EMOJIS[2], EMOJIS[3]].decode;
+	}).should.throwException!DecodingException
+		.msg.should.be.equal("Unexpected end of data");
+
+	({
+		[EMOJIS[1], EMOJIS[2]].decode;
+	}).should.throwException!DecodingException
+		.msg.should.be.equal("Unexpected end of data");
+
+	({
+		[EMOJIS[1]].decode;
+	}).should.throwException!DecodingException
+		.msg.should.be.equal("Unexpected end of data");
+}
+
+@("decode() throws an exception if rune is invalid")
+unittest {
+	({
+		['N', 'O', 'T', 'V', 'A', 'L', 'I', 'D'].decode;
+	}).should.throwException!DecodingException
+		.msg.should.be.equal("Invalid rune `N`");
 }
