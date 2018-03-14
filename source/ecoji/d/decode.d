@@ -1,3 +1,6 @@
+/**
+ * Provides decoding functionality
+ */
 module ecoji.d.decode;
 
 import ecoji.d.mapping;
@@ -9,12 +12,22 @@ import std.format : format;
 
 version(unittest) import fluent.asserts;
 
+/**
+ * This exception is thrown by `decode`
+ */
 class DecodingException : Exception {
 	@safe pure @nogc nothrow this(string msg, string file = __FILE__, size_t line = __LINE__) {
 		super(msg, file, line);
 	}
 }
 
+/**
+ * Decodes data
+ * Throws: `DecodingException` if end of data is reached or if it contains invalid runes
+ * Parameters:
+ * 	r	= Input range of 'dchar's
+ * Returns: input range of `ubyte`s
+ */
 template decode(Range) 
 if(isInputRange!Range && is(ElementType!Range : dchar)) {
 	auto decode(Range r) {

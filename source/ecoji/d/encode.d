@@ -1,3 +1,6 @@
+/**
+ * This module provides encoding functionality
+ */
 module ecoji.d.encode;
 
 import ecoji.d.mapping;
@@ -9,6 +12,12 @@ import std.utf : byChar;
 
 version(unittest) import fluent.asserts;
 
+/**
+ * Encodes data
+ * Parameters:
+ * 	r	= Input range of `ubyte`s or `char`s
+ * Returns: An input range of `dchar`s
+ */
 template encode(Range) 
 if(isInputRange!Range && is(ElementType!Range : ubyte)) {
 	auto encode(Range r) {
