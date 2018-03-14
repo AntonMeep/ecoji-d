@@ -1,12 +1,12 @@
 module app;
 
 import ecoji.d;
-import std.algorithm;
-import std.stdio;
-import std.getopt;
-import std.range;
-import std.utf;
-import std.string;
+
+import std.algorithm : map, copy, joiner;
+import std.getopt : getopt, config, defaultGetoptPrinter;
+import std.stdio : File, stdin, stdout, writef;
+import std.string : assumeUTF;
+import std.utf : byDchar;
 
 enum Mode {
 	Encode,
@@ -60,6 +60,5 @@ version(unittest) {
 				}
 				break;
 		}
-
 	}
 }
