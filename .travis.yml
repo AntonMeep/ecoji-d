@@ -17,3 +17,4 @@ before_install:
 script:
   - dub run trial:runner
   - dub build -b debug --compiler=$DC --arch=$ARCH
+  - for file in ./examples/*.d; do; echo "Running example $file"; dub $file; done
