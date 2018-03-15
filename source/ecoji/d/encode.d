@@ -7,7 +7,7 @@ import ecoji.d.mapping;
 
 import std.algorithm : min;
 import std.array : array;
-import std.range : isInputRange, ElementType, popFrontN, takeExactly, walkLength, front;
+import std.range : isInputRange, ElementType, walkLength, front, popFront, empty;
 import std.utf : byChar;
 
 version(unittest) import fluent.asserts;
@@ -43,6 +43,7 @@ if(isInputRange!Range && is(ElementType!Range : ubyte)) {
 			if(m_index++ < 3)
 				return;
 
+			ubyte[5] tmp;
 			switch(m_range.walkLength(5).min(5)) {
 			case 0:
 				m_empty = true;
@@ -55,10 +56,16 @@ if(isInputRange!Range && is(ElementType!Range : ubyte)) {
 					PADDING,
 				];
 				m_index = 0;
-				m_range.popFrontN(1);
+				m_range.popFront;
 				break;
 			case 2:
-				auto tmp = m_range.takeExactly(2).array;
+				foreach(i; 0..2) {
+					if(m_range.empty)
+						break;
+					tmp[i] = m_range.front;
+					m_range.popFront;
+				}
+
 				m_buffer = [
 					EMOJIS[tmp[0] << 2 | tmp[1] >> 6],
 					EMOJIS[(tmp[1] & 0x3F) << 4],
@@ -66,10 +73,15 @@ if(isInputRange!Range && is(ElementType!Range : ubyte)) {
 					PADDING,
 				];
 				m_index = 0;
-				m_range.popFrontN(2);
 				break;
 			case 3:
-				auto tmp = m_range.takeExactly(3).array;
+				foreach(i; 0..3) {
+					if(m_range.empty)
+						break;
+					tmp[i] = m_range.front;
+					m_range.popFront;
+				}
+
 				m_buffer = [
 					EMOJIS[tmp[0] << 2          | tmp[1] >> 6],
 					EMOJIS[(tmp[1] & 0x3F) << 4 | tmp[2] >> 4],
@@ -77,10 +89,15 @@ if(isInputRange!Range && is(ElementType!Range : ubyte)) {
 					PADDING,
 				];
 				m_index = 0;
-				m_range.popFrontN(3);
 				break;
 			case 4:
-				auto tmp = m_range.takeExactly(4).array;
+				foreach(i; 0..4) {
+					if(m_range.empty)
+						break;
+					tmp[i] = m_range.front;
+					m_range.popFront;
+				}
+
 				m_buffer[0..3] = [
 					EMOJIS[tmp[0] << 2          | tmp[1] >> 6],
 					EMOJIS[(tmp[1] & 0x3F) << 4 | tmp[2] >> 4],
@@ -95,10 +112,15 @@ if(isInputRange!Range && is(ElementType!Range : ubyte)) {
 				}
 
 				m_index = 0;
-				m_range.popFrontN(4);
 				break;
 			case 5:
-				auto tmp = m_range.takeExactly(5).array;
+				foreach(i; 0..5) {
+					if(m_range.empty)
+						break;
+					tmp[i] = m_range.front;
+					m_range.popFront;
+				}
+
 				m_buffer = [
 					EMOJIS[tmp[0] << 2          | tmp[1] >> 6],
 					EMOJIS[(tmp[1] & 0x3F) << 4 | tmp[2] >> 4],
@@ -106,7 +128,6 @@ if(isInputRange!Range && is(ElementType!Range : ubyte)) {
 					EMOJIS[(tmp[3] & 0x03)<<8   | tmp[4]]
 				];
 				m_index = 0;
-				m_range.popFrontN(5);
 				break;
 			default:
 				assert(false, "Impossible?");
