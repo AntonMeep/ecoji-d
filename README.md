@@ -5,6 +5,8 @@ ecoji-d 👦🔉🦐🔼🍽🔓☕☕ [![Page on DUB](https://img.shields.io/du
 
 Ecoji-d encodes data as base1024 but with emoji character set.
 
+Visit [ecoji.io](https://ecoji.io) to try Ecoji in your browser.
+
 ## Usage
 
 **ecoji-d** can be used both as a library or as a CLI utility, in both cases [D compiler](https://dlang.org/download.html) and [dub](https://code.dlang.org/download) are required:
